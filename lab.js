@@ -5,9 +5,9 @@
 // ############################################# //
 
 // Importing packages
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
+import express, { json, Router } from 'express';
+import cors from 'cors';
+import { connect, Schema as _Schema, model } from 'mongoose';
 
 // Initialize Express app
 const app = express();
@@ -18,11 +18,11 @@ const port = process.env.PORT || 3000; // Default port set to 3000
 // Enable CORS (Cross-Origin Resource Sharing) for all routes
 app.use(cors());
 // Enable Express to parse JSON formatted request bodies
-app.use(express.json());
+app.use(json());
 
 // MongoDB connection string.
 // This string is generated from the inputs provided in the UI.
-mongoose.connect('mongodb+srv://usernov7:12345@cluster0.ifamhov.mongodb.net/UserList', {
+connect('mongodb+srv://usernov7:12345@cluster0.ifamhov.mongodb.net/UserList', {
     useNewUrlParser: true, // Use the new URL parser instead of the deprecated one
     useUnifiedTopology: true // Use the new server discovery and monitoring engine
 })
@@ -44,7 +44,7 @@ mongoose.connect('mongodb+srv://usernov7:12345@cluster0.ifamhov.mongodb.net/User
 // ############################################# //
 
 // Define Mongoose Schema Class
-const Schema = mongoose.Schema;
+const Schema = _Schema;
 
 // Create a Schema object for the Users model
 // This schema defines the structure of users documents in the MongoDB collection.
@@ -57,7 +57,7 @@ const usersSchema = new Schema({
 // Create a Mongoose model from the usersSchema.
 // This model provides an interface to interact with the 'userss' collection in MongoDB.
 // Mongoose automatically pluralizes "Users" to "userss" for the collection name.
-const Users = mongoose.model("Users", usersSchema);
+const Users = model("Users", usersSchema);
 
 
 // ############################################# //
@@ -65,7 +65,7 @@ const Users = mongoose.model("Users", usersSchema);
 // ############################################# //
 
 // Create an Express Router instance to handle users-related routes.
-const router = express.Router();
+const router = Router();
 
 // Mount the router middleware at the '/api/userss' path.
 // All routes defined on this router will be prefixed with '/api/userss'.
